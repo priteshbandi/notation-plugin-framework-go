@@ -23,7 +23,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/notaryproject/notation-plugin-framework-go/cli/internal/mock"
+	"github.com/notaryproject/notation-plugin-framework-go/internal/mock"
 	"github.com/notaryproject/notation-plugin-framework-go/plugin"
 )
 
@@ -47,7 +47,6 @@ func TestMarshalResponse(t *testing.T) {
 }
 
 func TestMarshalResponseError(t *testing.T) {
-
 	_, err := cli.marshalResponse(nil, fmt.Errorf("expected error thrown"))
 	assertErr(t, err, plugin.ErrorCodeGeneric)
 
@@ -80,17 +79,17 @@ func TestUnmarshalRequestError(t *testing.T) {
 	var request plugin.DescribeKeyRequest
 	err := cli.unmarshalRequest(&request)
 	if err == nil {
-		t.Fatalf("unmarshalRequest() expected error but not found")
+		t.Errorf("unmarshalRequest() expected error but not found")
 	}
 
 	plgErr, ok := err.(*plugin.Error)
 	if !ok {
-		t.Fatalf("unmarshalRequest() expected error of type plugin.Error but found %s", reflect.TypeOf(err))
+		t.Errorf("unmarshalRequest() expected error of type plugin.Error but found %s", reflect.TypeOf(err))
 	}
 
 	expectedErrStr := "{\"errorCode\":\"VALIDATION_ERROR\",\"errorMessage\":\"Input is not a valid JSON\"}"
 	if plgErr.Error() != expectedErrStr {
-		t.Fatalf("unmarshalRequest() expected error string to be %s but found %s", expectedErrStr, plgErr.Error())
+		t.Errorf("unmarshalRequest() expected error string to be %s but found %s", expectedErrStr, plgErr.Error())
 	}
 }
 

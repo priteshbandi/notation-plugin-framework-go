@@ -51,8 +51,12 @@ func getValidArgs(md *plugin.GetMetadataResponse) []string {
 
 // deliverError print to standard error and then return nonzero exit code
 func deliverError(message string) {
-	_, _ = fmt.Fprintln(os.Stderr, message)
+	_, _ = fmt.Fprint(os.Stderr, message)
 	os.Exit(1)
+}
+
+func validate() {
+
 }
 
 // deferStdout is used to make sure that nothing get emitted to stdout and stderr until intentionally rescued.
